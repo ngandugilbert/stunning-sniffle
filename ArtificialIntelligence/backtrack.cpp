@@ -14,11 +14,12 @@ const int ROWS = 4;
 const int COLS = 4;
 
 int maze[ROWS][COLS] =
-    {
-        {0, 1, 0, 1},
-        {0, 1, 0, 1},
-        {0, 1, 0, 1},
-        {1, 1, 0, 0}};
+{
+    {0, 1, 0, 1},
+    {0, 1, 0, 1},
+    {0, 1, 1, 1},
+    {0, 0, 0, 0}
+};
 
 // have a method that checks if it is a valid move
 bool isValid(int _row, int _col)
@@ -101,19 +102,18 @@ vector<State> backtrack(int startRow, int startCol, int goalRow, int goalCol)
 
             for (State child : children)
             {
-
                 if (isValidPath(child))
                 {
-                    // this part has a bug and must be fixed
                     if (!hasState(child, DE) && !hasState(child, SL) && !hasState(child, NSL))
                     {
-                        cout<<"adding child"<<endl;
                         NSL.push(child);
+                        CS = child; // Update CS to the first valid child found
+                        break;      // Exit the loop since we found a valid child
                     }
                 }
             }
-            CS = NSL.top();
-            SL.push(CS);
+            SL.push(CS); // Push the current state onto SL after all children are processed
+
         }
     }
 

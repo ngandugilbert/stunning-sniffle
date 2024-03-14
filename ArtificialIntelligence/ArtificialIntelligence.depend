@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1710188790 source:d:\cpp\artificialintelligence\backtrack.cpp
+	<vector>
+	<iostream>
+	<stack>
+
+1710251546 source:d:\cpp\artificialintelligence\main.cpp
+	<vector>
+	<iostream>
+	<stack>
+
+1710252475 source:d:\cpp\artificialintelligence\breadth_first.cpp
+	<iostream>
+

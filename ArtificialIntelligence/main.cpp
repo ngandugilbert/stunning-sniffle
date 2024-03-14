@@ -14,11 +14,12 @@ const int ROWS = 4;
 const int COLS = 4;
 
 int maze[ROWS][COLS] =
-    {
-        {0, 1, 0, 1},
-        {0, 1, 0, 1},
-        {0, 1, 0, 1},
-        {1, 1, 0, 0}};
+{
+    {0, 1, 0, 1},
+    {0, 1, 0, 1},
+    {0, 0, 0, 1},
+    {1, 1, 0, 0}
+};
 
 // have a method that checks if it is a valid move
 bool isValid(int _row, int _col)
@@ -44,7 +45,6 @@ bool hasState(State _state, stack<State> _List)
         if (_List.top().row == _state.row && _List.top().col == _state.col)
         {
             return true;
-
         }
         _List.pop();
     }
@@ -58,6 +58,8 @@ vector<State> backtrack(int startRow, int startCol, int goalRow, int goalCol)
     stack<State> DE;
     vector<State> pathTaken;
     State CS;
+
+
     State start = {startRow, startCol};
     // Initialize the lists
     SL.push(start);
@@ -66,13 +68,41 @@ vector<State> backtrack(int startRow, int startCol, int goalRow, int goalCol)
 
     while (!NSL.empty())
     {
+        cout << "Current state: (" << CS.row << ", " << CS.col << ")" << endl;
+        cout << "Stack SL: ";
+        stack<State> tempSL = SL;
+        while (!tempSL.empty())
+        {
+            State temp = tempSL.top();
+            cout << "(" << temp.row << ", " << temp.col << ") ";
+            tempSL.pop();
+        }
+        cout << endl;
+        cout << "Stack NSL: ";
+        stack<State> tempNSL = NSL;
+        while (!tempNSL.empty())
+        {
+            State temp = tempNSL.top();
+            cout << "(" << temp.row << ", " << temp.col << ") ";
+            tempNSL.pop();
+        }
+        cout << endl;
+        cout << "Stack DE: ";
+        stack<State> tempDE = DE;
+        while (!tempDE.empty())
+        {
+            State temp = tempDE.top();
+            cout << "(" << temp.row << ", " << temp.col << ") ";
+            tempDE.pop();
+        }
+        cout << endl;
+
         // check if the given state is the goal state
         if (CS.row == goalRow && CS.col == goalCol)
         {
             // this is the goal, return SL
             while (!SL.empty())
             {
-                // pathTaken.push_back(SL.pop());
                 pathTaken.push_back(SL.top());
                 SL.pop();
             }
@@ -81,22 +111,24 @@ vector<State> backtrack(int startRow, int startCol, int goalRow, int goalCol)
         // check CS has no children
         if (!isValidPath({CS.row - 1, CS.col}) && !isValidPath({CS.row + 1, CS.col}) && !isValidPath({CS.row, CS.col - 1}) && !isValidPath({CS.row, CS.col + 1}))
         {
-            cout<<"This is a deadend"<<endl;
+            cout << "This is a deadend" << endl;
             // this is a deadend
             while (!SL.empty() && SL.top().row == CS.row && SL.top().col == CS.col)
             {
                 DE.push(CS);
                 SL.pop();
                 NSL.pop();
-                CS = NSL.top();
+                if (!SL.empty())
+                {
+                    CS = SL.top();
+                }
             }
             SL.push(CS);
         }
         else
         {
             // add children of CS
-            // create a list of children
-            cout<<"found some children"<<endl;
+            cout << "Found some children" << endl;
             State children[] = {{CS.row - 1, CS.col}, {CS.row + 1, CS.col}, {CS.row, CS.col + 1}, {CS.row, CS.col - 1}};
 
             for (State child : children)
@@ -104,10 +136,9 @@ vector<State> backtrack(int startRow, int startCol, int goalRow, int goalCol)
 
                 if (isValidPath(child))
                 {
-                    // this part has a bug and must be fixed
                     if (!hasState(child, DE) && !hasState(child, SL) && !hasState(child, NSL))
                     {
-                        cout<<"adding child"<<endl;
+                        cout << "Adding child: (" << child.row << ", " << child.col << ")" << endl;
                         NSL.push(child);
                     }
                 }
@@ -120,9 +151,10 @@ vector<State> backtrack(int startRow, int startCol, int goalRow, int goalCol)
     return pathTaken;
 }
 
+// main function to test the algorithm
 int main()
 {
-    int startRow = 0, startCol = 1;
+    int startRow = 0, startCol = 2;
     int goalRow = 3, goalCol = 3;
 
     vector<State> path = backtrack(startRow, startCol, goalRow, goalCol);
