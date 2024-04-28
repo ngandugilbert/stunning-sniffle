@@ -17,7 +17,7 @@ int maze[ROWS][COLS] =
     {
         {0, 1, 0, 1},
         {0, 1, 0, 1},
-        {0, 1, 0, 1},
+        {0, 0, 0, 1},
         {1, 1, 0, 0}};
 
 // have a method that checks if it is a valid move
@@ -104,7 +104,7 @@ vector<State> backtrack(int startRow, int startCol, int goalRow, int goalCol)
 
                 if (isValidPath(child))
                 {
-                    // this part has a bug and must be fixed
+                    // TODO: this part has a bug and must be fixed
                     if (!hasState(child, DE) && !hasState(child, SL) && !hasState(child, NSL))
                     {
                         cout<<"adding child"<<endl;

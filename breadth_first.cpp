@@ -65,14 +65,12 @@ void breadthFirst(State _start, State _goal)
         }
         else
         {
-            cout<<"Did come here"<<endl;
             // generate children for X
             // The children are based on the rules of the game
             State MOVES[] = {{X.row, X.col -1}, {X.row,X.col + 1},{ X.row -1, X.col}, {X.row + 1, X.col}};
             queue<State> children;
             for(State possibleMove : MOVES)
             {
-                cout<<open.front().row<<", "<<open.front().row<<endl;
                 if(isValid(possibleMove) && !isVisited(possibleMove, open) && !isVisited(possibleMove, closed))
                 {
                     open.push(possibleMove);
@@ -80,7 +78,6 @@ void breadthFirst(State _start, State _goal)
             }
             // put x on closed
             closed.push(X);
-
         }
     }
 }

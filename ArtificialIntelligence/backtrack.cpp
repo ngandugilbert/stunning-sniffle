@@ -122,7 +122,7 @@ vector<State> backtrack(int startRow, int startCol, int goalRow, int goalCol)
 
 int main()
 {
-    int startRow = 0, startCol = 1;
+    int startRow = 0, startCol = 0;
     int goalRow = 3, goalCol = 3;
 
     vector<State> path = backtrack(startRow, startCol, goalRow, goalCol);
